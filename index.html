@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Administrador de Pacientes</title>
+    <link rel="stylesheet" href="dist/output.css" />
+  </head>
+  <body class="bg-gray-100 h-screen">
+    <h1 class="font-black text-5xl text-center md:w-2/3 mx-auto mt-20">
+      Seguimiento Pacientes
+      <span class="text-indigo-700">Veterinaria</span>
+    </h1>
+
+    <div class="mt-12 md:flex container mx-auto">
+      <div class="md:w-1/2 lg:w-2/5 mx-5">
+        <h2 class="font-black text-3xl text-center">Seguimiento Pacientes</h2>
+
+        <p class="text-lg mt-5 text-center mb-10">
+          Añade Pacientes y
+          <span class="text-indigo-600 font-bold">Administralos</span>
+        </p>
+
+        <form
+          id="formulario-cita"
+          class="bg-white shadow-md rounded-lg py-10 px-5 mb-10"
+        >
+          <div class="mb-5">
+            <label
+              for="paciente"
+              class="block text-gray-700 uppercase font-bold text-sm"
+            >
+              Nombre Paciente:
+            </label>
+            <input
+              class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+              type="text"
+              id="paciente"
+              placeholder="Nombre Paciente"
+              name="paciente"
+            />
+          </div>
+
+          <div class="mb-5">
+            <label
+              for="propietario"
+              class="block text-gray-700 uppercase font-bold text-sm"
+            >
+              Nombre Propietario:
+            </label>
+            <input
+              class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+              type="text"
+              id="propietario"
+              placeholder="Nombre Propietario"
+              name="propietario"
+            />
+          </div>
+          <div class="mb-5">
+            <label
+              for="email"
+              class="block text-gray-700 uppercase font-bold text-sm"
+            >
+              Email Contacto
+            </label>
+            <input
+              class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+              type="email"
+              id="email"
+              placeholder="E-mail Contacto"
+              name="email"
+            />
+          </div>
+
+          <div class="mb-5">
+            <label
+              for="fecha"
+              class="block text-gray-700 uppercase font-bold text-sm"
+            >
+              Fecha Alta
+            </label>
+            <input
+              class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+              type="date"
+              id="fecha"
+              name="fecha"
+            />
+          </div>
+
+          <div class="mb-5">
+            <label
+              for="sintomas"
+              class="block text-gray-700 uppercase font-bold text-sm"
+            >
+              Síntomas
+            </label>
+            <textarea
+              class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+              id="sintomas"
+              name="sintomas"
+              placeholder="Síntomas del Paciente"
+            ></textarea>
+          </div>
+
+          <input
+            type="submit"
+            class="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
+            value="Registrar Paciente"
+          />
+        </form>
+      </div>
+
+      <div class="md:w-1/2 lg:w-3/5 md:h-screen overflow-y-scroll">
+        <h2 class="font-black text-3xl text-center">Listado Pacientes</h2>
+        <p class="text-xl mt-5 mb-10 text-center">
+          Administra tus
+          <span class="text-indigo-600 font-bold">Pacientes y Citas</span>
+        </p>
+        <div id="citas">
+          <p class="text-xl mt-5 mb-10 text-center">No Hay Pacientes</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal eliminar -->
+    <div>
+      <div
+        id="modal"
+        class="relative z-10 hidden"
+        aria-labelledby="dialog-title"
+        role="dialog"
+        aria-modal="true"
+      >
+        <!-- Backdrop -->
+        <div
+          class="fixed inset-0 bg-gray-500/75 opacity-0 transition-opacity duration-300"
+          aria-hidden="true"
+          id="modalBackdrop"
+        ></div>
+
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div
+            class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
+          >
+            <!-- Panel Modal -->
+            <div
+              id="modalPanel"
+              class="relative transform scale-95 opacity-0 transition-all duration-300 ease-out overflow-hidden rounded-lg bg-white text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg"
+            >
+              <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                  <div
+                    class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10"
+                  >
+                    <svg
+                      class="size-6 text-red-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                      data-slot="icon"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+                      />
+                    </svg>
+                  </div>
+                  <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                    <h3
+                      class="text-base font-semibold text-gray-900"
+                      id="dialog-title"
+                    >
+                      Eliminar Paciente
+                    </h3>
+                    <div class="mt-2">
+                      <p class="text-sm text-gray-500">
+                        ¿Esta seguro de eliminar el paciente? Esta acción no se
+                        puede deshacer.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
+              >
+                <button
+                  id="confirmModalBtn"
+                  type="button"
+                  class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
+                >
+                  Eliminar
+                </button>
+                <button
+                  id="cancelModalBtn"
+                  type="button"
+                  class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
