@@ -8,7 +8,7 @@ Simulador de un administrador de citas para pacientes de veterinaria, hecho en v
 - Permite edición de los datos ingresados en el mismo formulario.
 - Se puede eliminar los datos de un paciente, previa confirmación en un modal.
 - Alertas o notificaciones de validación y demás acciones.
-- Usa Bootstrap Tailwind para los estilos.
+- Usa Tailwind para los estilos.
 
 ## Screenshots
 
