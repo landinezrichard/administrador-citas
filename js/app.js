@@ -168,7 +168,7 @@ class AdminCitas {
 
       // Botones acciones
       const contenedorBotones = document.createElement("DIV");
-      contenedorBotones.classList.add("flex", "justify-between", "mt-10");
+      contenedorBotones.classList.add("flex", "justify-between", "flex-wrap", "gap-2", "mt-10");
 
       const btnEditar = document.createElement("button");
       btnEditar.classList.add(
