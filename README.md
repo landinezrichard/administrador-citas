@@ -3,6 +3,7 @@
 
 Simulador de un administrador de citas para pacientes de veterinaria, hecho en vainilla JavaScript usando clases(POO).
 
+- Archivos divididos en modulos.
 - Maneja clases para "Notificacion" y "AdminCitas"..
 - Validación de todos los campos requeridos.
 - Permite edición de los datos ingresados en el mismo formulario.
