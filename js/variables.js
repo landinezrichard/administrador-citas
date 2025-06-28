@@ -1,3 +1,4 @@
+import AdminCitas from "./classes/AdminCitas.js";
 import { generarId } from "./funciones.js";
 
 // Objeto de Cita
@@ -14,4 +15,10 @@ let editando = {
   value: false,
 };
 
-export { citaObj, editando };
+let DB = {
+  value: null
+};
+
+const citas = new AdminCitas();
+
+export { citaObj, editando, DB, citas };

@@ -1,6 +1,5 @@
-import AdminCitas from "./classes/AdminCitas.js";
 import Notificacion from "./classes/Notificacion.js";
-import { citaObj, editando } from "./variables.js";
+import { citaObj, editando, DB, citas } from "./variables.js";
 import {
   backdrop,
   formulario,
@@ -12,8 +11,6 @@ import {
   sintomasInput,
   modal,
 } from "./selectores.js";
-
-const citas = new AdminCitas();
 
 // Funciones
 export function datosCita(e) {
@@ -34,20 +31,47 @@ export function submitCita(e) {
 
   if (editando.value) {
     // console.log("Editando registro");
-    citas.editar({ ...citaObj });
-    new Notificacion({
-      texto: "Registro Actualizado",
-      tipo: "exito",
-    });
+
+    // Actualizar registro en indexedDB
+    const transaction = DB.value.transaction(["citas"], "readwrite");
+    const objectStore = transaction.objectStore("citas");
+
+    objectStore.put(citaObj);
+
+    transaction.oncomplete = () => {
+      new Notificacion({
+        texto: "Registro Actualizado",
+        tipo: "exito",
+      });
+    };
+
+    transaction.onerror = () => {
+      new Notificacion({
+        texto: "Error al actualizar el registro",
+        tipo: "error",
+      });
+    };
   } else {
-    // Se agrega copia del objeto o sino sobre-escribe la info del paciente anterior
-    citas.agregar({ ...citaObj });
-    // mostrar notificacion
-    new Notificacion({
-      texto: "Paciente Registrado",
-      tipo: "exito",
-    });
+    // Insertar registro en indexedDB
+    const transaction = DB.value.transaction(["citas"], "readwrite");
+
+    // Habilitar el objectStore
+    const objectStore = transaction.objectStore("citas");
+
+    // Insertar en la BD
+    objectStore.add(citaObj);
+
+    transaction.oncomplete = () => {
+      // console.log("Cita agregada a la base de datos");
+
+      // mostrar notificacion
+      new Notificacion({
+        texto: "Paciente Registrado",
+        tipo: "exito",
+      });
+    };
   }
+  citas.mostrar();
   //reiniciar form y objeto
   formulario.reset();
   reiniciarObjetoCita();
@@ -123,4 +147,45 @@ export function closeModal() {
   setTimeout(() => {
     modal.classList.add("hidden");
   }, 300); // Debe coincidir con `duration-300`
+}
+
+// Crear Base de datos
+export function crearDB() {
+  //Crear base de datos version 1.0
+  const crearDB = window.indexedDB.open("citas", 1);
+
+  // Si hay un error
+  crearDB.onerror = function () {
+    console.log("Hubo un error a la hora de crear la BD");
+  };
+
+  // Si se creo bien
+  crearDB.onsuccess = function () {
+    console.log("Base de datos creada!!!");
+
+    DB.value = crearDB.result;
+
+    // Mostrar citas cuando indexedDB esté listo
+    citas.mostrar();
+  };
+
+  // Definir Schema
+  crearDB.onupgradeneeded = function (e) {
+    const db = e.target.result;
+
+    const objectStore = db.createObjectStore("citas", {
+      keyPath: "id",
+      autoIncrement: true,
+    });
+
+    // Definir las columnas
+    objectStore.createIndex("paciente", "paciente", { unique: false });
+    objectStore.createIndex("propietario", "propietario", { unique: false });
+    objectStore.createIndex("email", "email", { unique: false });
+    objectStore.createIndex("fecha", "fecha", { unique: false });
+    objectStore.createIndex("sintomas", "sintomas", { unique: false });
+    objectStore.createIndex("id", "id", { unique: true });
+
+    console.log("DB creada y lista!!!");
+  };
 }

@@ -11,6 +11,8 @@ Simulador de un administrador de citas para pacientes de veterinaria, hecho en v
 - Alertas o notificaciones de validación y demás acciones.
 - Usa Tailwind para los estilos.
 
+New: se añadio indexedDB para almacenar datos en local.
+
 ## Screenshots
 
 ![App Screenshot](./preview.jpg)

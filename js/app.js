@@ -9,7 +9,7 @@ import {
   cancelBtn,
 } from "./selectores.js";
 
-import { datosCita, submitCita, closeModal } from "./funciones.js";
+import { datosCita, submitCita, closeModal, crearDB } from "./funciones.js";
 
 // Eventos
 pacienteInput.addEventListener("change", datosCita);
@@ -27,4 +27,8 @@ modal.addEventListener("click", (e) => {
   if (!dialogPanel.contains(e.target)) {
     closeModal();
   }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  crearDB();
 });
